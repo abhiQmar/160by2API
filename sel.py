@@ -17,8 +17,6 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import *
 
 baseurl = "http://www.160by2.com/Index"
-username = raw_input("Enter your 160by2 Username/Phone No.: ")
-password = getpass.getpass("Enter your password: ")
 
 xpaths = { 'usernameTxtBox' : "/html/body/form/div/div/div[2]/div/p[3]/input[@id='username']",
            'passwordTxtBox' : "/html/body/form/div/div/div[2]/div/p[5]/input[@id='password']",
@@ -27,20 +25,11 @@ xpaths = { 'usernameTxtBox' : "/html/body/form/div/div/div[2]/div/p[3]/input[@id
          }
 
 #
-# Block images,css,flash
-from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-
-## get the Firefox profile object
-firefoxProfile = FirefoxProfile()
-## Disable CSS
-firefoxProfile.set_preference('permissions.default.stylesheet', 2)
-## Disable images
-firefoxProfile.set_preference('permissions.default.image', 2)
-## Disable Flash
-firefoxProfile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so','false')
 ## Set the modified profile while creating the browser object 
-mydriver = webdriver.PhantomJS()
+mydriver = webdriver.PhantomJS(service_args=['--load-images=no'])
 print "Connecting...."
+username = raw_input("Enter your 160by2 Username/Phone No.: ")
+password = getpass.getpass("Enter your password: ")
 ##################
 ##################
 mydriver.get(baseurl)
@@ -150,11 +139,6 @@ if mydriver.execute_script(script4):
   print "success"
 else:
   print 'failed'
-
-for handle in mydriver.window_handles:
-  mydriver.switch_to_window(handle)
-  mydriver.close()
-
 ### FOr wait till page Loads
 #   from selenium.webdriver.support.ui import WebDriverWait
 #   try:
