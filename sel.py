@@ -3,6 +3,7 @@
 
 from selenium import webdriver
 import time
+import getpass
 ############ to hide firefox
 # from pyvirtualdisplay import Display
 
@@ -13,10 +14,11 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import *
 
 baseurl = "http://www.160by2.com/Index"
-username = "7405598718"
-password = "5922"
+username = raw_input("Enter your 160by2 Username/Phone No.: ")
+password = getpass.getpass("Enter your password: ")
 
 xpaths = { 'usernameTxtBox' : "/html/body/form/div/div/div[2]/div/p[3]/input[@id='username']",
            'passwordTxtBox' : "/html/body/form/div/div/div[2]/div/p[5]/input[@id='password']",
@@ -37,7 +39,7 @@ firefoxProfile.set_preference('permissions.default.image', 2)
 ## Disable Flash
 firefoxProfile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so','false')
 ## Set the modified profile while creating the browser object 
-mydriver = webdriver.Firefox(firefoxProfile)
+mydriver = webdriver.PhantomJS()
 print "Connecting...."
 ##################
 ##################
@@ -152,3 +154,13 @@ else:
 for handle in mydriver.window_handles:
   mydriver.switch_to_window(handle)
   mydriver.close()
+
+### FOr wait till page Loads
+#   from selenium.webdriver.support.ui import WebDriverWait
+#   try:
+#     element = WebDriverWait(driver, 10).until(
+#         EC.presence_of_element_located((By.ID, "myDynamicElement"))
+#     )
+# finally:
+#     driver.quit()
+###
